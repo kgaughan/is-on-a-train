@@ -22,17 +22,25 @@ def stream(username, password, triggers):
 
 def read_config(parser):
     auth = dict((k, parser.get('auth', k)) for k in ('username', 'password'))
+    templates = dict(parser.items('templates'))
+    output = dict(parser.items('output'))
+    if sorted(templates.keys()) != sorted(output.keys()):
+        raise Exception('Templates and output locations must have same keys.')
     triggers = {}
     for section in parser.sections():
         if section.startswith('@'):
             screen_name = section[1:]
+            if screen_name not in output:
+                continue
             triggers[screen_name] = dict(parser.items(section))
-    return auth, triggers
+    if sorted(output.keys()) != sorted(triggers.keys()):
+        raise Exception('Must have a trigger section per output location.')
+    return auth, templates, output, triggers
 
 def main():
     parser = RawConfigParser()
     parser.read('config.ini')
-    auth, triggers = read_config(parser)
+    auth, _, _, triggers = read_config(parser)
     stream(auth['username'], auth['password'], triggers)
 
 if __name__ == '__main__':
