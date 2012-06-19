@@ -1,0 +1,9 @@
+is-on-a-train
+=============
+
+This is a stupid twitter hack that monitors a number of different twitter
+accounts using the Twitter streaming API and subsequently updates various HTML
+files based on patterns in the tweets.
+
+The daemon is based on a hack written for the site `ismulleyonatrain.com
+<http://ismulleyonatrain.com/>`_.
