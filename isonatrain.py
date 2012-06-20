@@ -41,6 +41,9 @@ __author__ = 'Keith Gaughan'
 __email__ = 'k@stereochro.me'
 
 
+USAGE = "Usage: %s <config>"
+
+
 class Listener(StreamListener):
 
     __slots__ = ('templates', 'output', 'triggers')
@@ -90,12 +93,13 @@ def load_templates(template_paths):
             templates[name] = fh.read()
     return templates
 
-def main(argv):
-    if len(argv) != 2:
-        print >> sys.stderr, "Usage: %s <config>" % os.path.basename(argv[0])
-        sys.exit(1)
+def main():
+    if len(sys.argv) != 2:
+        print >> sys.stderr, USAGE % os.path.basename(sys.argv[0])
+        return 1
+
     parser = RawConfigParser()
-    parser.read(argv[1])
+    parser.read(sys.argv[1])
     auth, template_paths, output, triggers = read_config(parser)
 
     templates = load_templates(template_paths)
@@ -104,10 +108,10 @@ def main(argv):
             BasicAuthHandler(auth['username'], auth['password']),
             Listener(templates, output, triggers),
             secure=True)
-    stream.filter(follow=get_user_ids(triggers.keys()))
-
-if __name__ == '__main__':
     try:
-        main(sys.argv)
+        stream.filter(follow=get_user_ids(triggers.keys()))
     except KeyboardInterrupt:
         pass
+
+if __name__ == '__main__':
+    sys.exit(main())
