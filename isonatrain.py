@@ -93,6 +93,12 @@ def load_templates(template_paths):
             templates[name] = fh.read()
     return templates
 
+def tweak_paths(base, path_dict):
+    result = {}
+    for key, path in path_dict.iteritems():
+        result[key] = os.path.join(base, path)
+    return result
+
 def main():
     if len(sys.argv) != 2:
         print >> sys.stderr, USAGE % os.path.basename(sys.argv[0])
@@ -101,6 +107,11 @@ def main():
     parser = RawConfigParser()
     parser.read(sys.argv[1])
     auth, template_paths, output, triggers = read_config(parser)
+
+    # Tweak the paths to make them relative to the config file.
+    base = os.path.dirname(sys.argv[1])
+    template_paths = tweak_paths(base, template_paths)
+    output = tweak_paths(base, output)
 
     templates = load_templates(template_paths)
 
