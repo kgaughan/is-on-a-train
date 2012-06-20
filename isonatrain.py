@@ -37,7 +37,7 @@ from pystache import render
 
 
 __version__ = '1.0.0'
-__author__ 'Keith Gaughan'
+__author__ = 'Keith Gaughan'
 __email__ = 'k@stereochro.me'
 
 
