@@ -1,9 +1,5 @@
-import logging
 from ConfigParser import RawConfigParser
 from tweepy import api, StreamListener, Stream, BasicAuthHandler
-
-
-LOG = logging.getLogger('isonatrain')
 
 
 class Listener(StreamListener):
