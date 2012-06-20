@@ -1,2 +1,2 @@
-pystache==0.5.2
-tweepy==1.9
+pystache>=0.5.2
+tweepy>=1.9
