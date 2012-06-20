@@ -8,7 +8,6 @@ setup(
     version=isonatrain.__version__,
     description="Generates files based on trigger text in Twitter streams.",
     long_description=open('README').read(),
-    license=open('LICENSE').read(),
     url='https://github.com/kgaughan/is-on-a-train/',
     install_requires=[line.rstrip() for line in open('requirements.txt')],
     py_modules=['isonatrain'],
