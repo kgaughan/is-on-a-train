@@ -11,12 +11,25 @@ class Listener(StreamListener):
     __slots__ = ('templates', 'output', 'triggers')
 
     def __init__(self, templates, output, triggers):
+        super(Listener, self).__init__()
         self.templates = templates
         self.output = output
         self.triggers = triggers
 
     def on_status(self, status):
-        print "%s: %s" % (status.user.screen_name, status.text)
+        screen_name = status.user.screen_name
+        if screen_name not in self.triggers:
+            return
+        text = status.text.lower()
+        for trigger, msg in self.triggers.iteritems():
+            if text.find(trigger) != -1:
+                template = self.templates[screen_name]
+                output = self.output[screen_name]
+                self.write(template, output, msg)
+                break
+
+    def write(self, template, output, msg):
+        pass
 
 
 def get_user_ids(screen_names):
