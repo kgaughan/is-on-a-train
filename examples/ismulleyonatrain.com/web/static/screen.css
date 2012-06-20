@@ -1,0 +1,56 @@
+@font-face {
+	font-family: Chunk;
+	src: url(typefaces/Chunk.otf);
+}
+body {
+	font-family: sans-serif;
+	margin: 0;
+	line-height: 1.4;
+}
+div#banner {
+	overflow: hidden;
+	width: 100%;
+}
+div#banner h1 {
+	font-family: Chunk, "Helvetica", sans-serif;
+	color: #210;
+	font-size: 200%;
+	font-weight: 300;
+	margin: 0.5ex 0;
+	text-align: center;
+}
+p#answer {
+	font-family: Chunk, sans-serif;
+	color: #210;
+	font-size: 1200%;
+	text-align: center;
+	margin: 0;
+	padding: 0.25ex 0;
+	background: #DEF;
+	text-shadow: #012 2px 2px 2px;
+	border-top: 1px solid #ABC;
+	border-bottom: 1px solid #ABC;
+}
+p#answer span {
+	white-space: nowrap;
+}
+p#answer img {
+	vertical-align: middle;
+	border: 1px solid #ABC;
+	padding: 1px;
+	background: white;
+}
+p.credits {
+	text-align: center;
+	font-size: 80%;
+	font-weight: normal;
+	padding: 0;
+	margin: 1em auto;
+	width: 60em;
+}
+p.credits, p.credits a {
+	color: gray;
+}
+p#like {
+	text-align: center;
+}
