@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
 from setuptools import setup, find_packages
-import isonatrain
 
 setup(
     name='isonatrain',
-    version=isonatrain.__version__,
+    version='1.0.0',
     description="Generates files based on trigger text in Twitter streams.",
     long_description=open('README').read(),
     url='https://github.com/kgaughan/is-on-a-train/',
@@ -27,8 +26,8 @@ setup(
         'Programming Language :: Python',
     ],
 
-    author=isonatrain.__author__,
-    author_email=isonatrain.__email__,
-    maintainer=isonatrain.__author__,
-    maintainer_email=isonatrain.__email__
+    author='Keith Gaughan',
+    author_email='k@stereochro.me',
+    maintainer='Keith Gaughan',
+    maintainer_email='k@stereochro.me'
 )
