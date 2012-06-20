@@ -1,5 +1,6 @@
 from ConfigParser import RawConfigParser
 from tweepy import api, StreamListener, Stream, BasicAuthHandler
+from pystache import render
 
 
 class Listener(StreamListener):
@@ -17,15 +18,10 @@ class Listener(StreamListener):
         if screen_name not in self.triggers:
             return
         text = status.text.lower()
-        for trigger, msg in self.triggers.iteritems():
+        for trigger, message in self.triggers.iteritems():
             if text.find(trigger) != -1:
-                template = self.templates[screen_name]
-                output = self.output[screen_name]
-                self.write(template, output, msg)
-                break
-
-    def write(self, template, output, msg):
-        pass
+                with open(self.output[screen_name], 'w+') as fh:
+                    fh.write(render(self.templates[screen_name], message=message))
 
 
 def get_user_ids(screen_names):
