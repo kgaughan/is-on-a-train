@@ -59,7 +59,7 @@ class Listener(StreamListener):
         if screen_name not in self.triggers:
             return
         text = status.text.lower()
-        for trigger, message in self.triggers.iteritems():
+        for trigger, message in self.triggers[screen_name].iteritems():
             if text.find(trigger) != -1:
                 with open(self.output[screen_name], 'w+') as fh:
                     fh.write(render(self.templates[screen_name], message=message))
