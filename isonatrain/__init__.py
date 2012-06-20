@@ -48,10 +48,19 @@ def read_config(parser):
         raise Exception('Must have a trigger section per output location.')
     return auth, templates, output, triggers
 
+def load_templates(template_paths):
+    templates = {}
+    for name, path in template_paths.iteritems():
+        with open(path, 'r') as fh:
+            templates[name] = fh.read()
+    return templates
+
 def main():
     parser = RawConfigParser()
     parser.read('config.ini')
-    auth, templates, output, triggers = read_config(parser)
+    auth, template_paths, output, triggers = read_config(parser)
+
+    templates = load_templates(template_paths)
 
     stream = Stream(
             BasicAuthHandler(auth['username'], auth['password']),
