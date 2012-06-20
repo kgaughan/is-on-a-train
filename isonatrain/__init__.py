@@ -1,3 +1,5 @@
+import os.path
+import sys
 from ConfigParser import RawConfigParser
 from tweepy import api, StreamListener, Stream, BasicAuthHandler
 from pystache import render
@@ -51,9 +53,12 @@ def load_templates(template_paths):
             templates[name] = fh.read()
     return templates
 
-def main():
+def main(argv):
+    if len(argv) != 2:
+        print >> sys.stderr, "Syntax: %s <config>" % os.path.basename(argv[0])
+        sys.exit(1)
     parser = RawConfigParser()
-    parser.read('config.ini')
+    parser.read(argv[1])
     auth, template_paths, output, triggers = read_config(parser)
 
     templates = load_templates(template_paths)
@@ -65,4 +70,7 @@ def main():
     stream.filter(follow=get_user_ids(triggers.keys()))
 
 if __name__ == '__main__':
-    main()
+    try:
+        main(sys.argv)
+    except KeyboardInterrupt:
+        pass
