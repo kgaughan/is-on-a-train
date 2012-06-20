@@ -7,6 +7,14 @@ LOG = logging.getLogger('isonatrain')
 
 
 class Listener(StreamListener):
+
+    __slots__ = ('templates', 'output', 'triggers')
+
+    def __init__(self, templates, output, triggers):
+        self.templates = templates
+        self.output = output
+        self.triggers = triggers
+
     def on_status(self, status):
         print "%s: %s" % (status.user.screen_name, status.text)
 
@@ -34,12 +42,11 @@ def read_config(parser):
 def main():
     parser = RawConfigParser()
     parser.read('config.ini')
-    auth, _, _, triggers = read_config(parser)
+    auth, templates, output, triggers = read_config(parser)
 
-    listener = Listener()
     stream = Stream(
             BasicAuthHandler(auth['username'], auth['password']),
-            listener,
+            Listener(templates, output, triggers),
             secure=True)
     stream.filter(follow=get_user_ids(triggers.keys()))
 
