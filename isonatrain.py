@@ -60,6 +60,7 @@ class Listener(StreamListener):
             if text.find(trigger) != -1:
                 with open(self.output[screen_name], 'w+') as fh:
                     fh.write(render(self.templates[screen_name], message=message))
+                    break
 
 
 def get_user_ids(screen_names):
