@@ -14,12 +14,6 @@ class Listener(StreamListener):
 def get_user_ids(screen_names):
     return [user.id for user in api.lookup_users(screen_names=screen_names)]
 
-def stream(username, password, triggers):
-    auth = BasicAuthHandler(username, password)
-    listener = Listener()
-    ids = get_user_ids(triggers.keys())
-    Stream(auth, listener, secure=True).filter(follow=ids)
-
 def read_config(parser):
     auth = dict((k, parser.get('auth', k)) for k in ('username', 'password'))
     templates = dict(parser.items('templates'))
@@ -41,7 +35,13 @@ def main():
     parser = RawConfigParser()
     parser.read('config.ini')
     auth, _, _, triggers = read_config(parser)
-    stream(auth['username'], auth['password'], triggers)
+
+    listener = Listener()
+    stream = Stream(
+            BasicAuthHandler(auth['username'], auth['password']),
+            listener,
+            secure=True)
+    stream.filter(follow=get_user_ids(triggers.keys()))
 
 if __name__ == '__main__':
     main()
