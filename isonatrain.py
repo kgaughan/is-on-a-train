@@ -92,7 +92,7 @@ def load_templates(template_paths):
 
 def main(argv):
     if len(argv) != 2:
-        print >> sys.stderr, "Syntax: %s <config>" % os.path.basename(argv[0])
+        print >> sys.stderr, "Usage: %s <config>" % os.path.basename(argv[0])
         sys.exit(1)
     parser = RawConfigParser()
     parser.read(argv[1])
