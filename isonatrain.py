@@ -61,9 +61,12 @@ class Listener(StreamListener):
         text = status.text.lower()
         for trigger, message in self.triggers[screen_name].iteritems():
             if text.find(trigger) != -1:
-                with open(self.output[screen_name], 'w+') as fh:
-                    fh.write(render(self.templates[screen_name], message=message))
-                    break
+                self.render(screen_name, message)
+                break
+
+    def render(self, screen_name, message):
+        with open(self.output[screen_name], 'w+') as fh:
+            fh.write(render(self.templates[screen_name], message=message))
 
 
 def get_user_ids(screen_names):
