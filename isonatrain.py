@@ -45,6 +45,9 @@ USAGE = "Usage: %s <config>"
 
 
 class Listener(StreamListener):
+    """
+    Reacts to events from the Streaming API.
+    """
 
     __slots__ = ('templates', 'output', 'triggers')
 
@@ -65,14 +68,25 @@ class Listener(StreamListener):
                 break
 
     def render(self, screen_name, message):
+        """
+        Generates an output file for the given screen name with the given
+        message and writes it to disc.
+        """
         with open(self.output[screen_name], 'w+') as fh:
             fh.write(render(self.templates[screen_name], message=message))
 
 
 def get_user_ids(screen_names):
+    """
+    Queries Twitter for the User IDs corresponding to the given screen names.
+    """
     return [user.id for user in api.lookup_users(screen_names=screen_names)]
 
 def read_config(parser):
+    """
+    Extract the configuration from a parsed configuration file, checking that
+    the data contained within is valid.
+    """
     auth = dict((k, parser.get('auth', k)) for k in ('username', 'password'))
     templates = dict(parser.items('templates'))
     output = dict(parser.items('output'))
@@ -90,6 +104,9 @@ def read_config(parser):
     return auth, templates, output, triggers
 
 def load_templates(template_paths):
+    """
+    Loads all the mustache templates for the given users into memory.
+    """
     templates = {}
     for name, path in template_paths.iteritems():
         with open(path, 'r') as fh:
@@ -97,12 +114,19 @@ def load_templates(template_paths):
     return templates
 
 def tweak_paths(base, path_dict):
+    """
+    Tweak paths extracted from a configuration file to make them relative to
+    that configuration file.
+    """
     result = {}
     for key, path in path_dict.iteritems():
         result[key] = os.path.join(base, path)
     return result
 
 def main():
+    """
+    Execute the daemon.
+    """
     if len(sys.argv) != 2:
         print >> sys.stderr, USAGE % os.path.basename(sys.argv[0])
         return 1
