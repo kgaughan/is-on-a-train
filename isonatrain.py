@@ -3,17 +3,17 @@
 # by Keith Gaughan <http://stereochro.me/>
 #
 # Copyright (c) Keith Gaughan, 2012
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -82,6 +82,7 @@ def get_user_ids(screen_names):
     """
     return [user.id for user in api.lookup_users(screen_names=screen_names)]
 
+
 def read_config(parser):
     """
     Extract the configuration from a parsed configuration file, checking that
@@ -103,6 +104,7 @@ def read_config(parser):
         raise Exception('Must have a trigger section per output location.')
     return auth, templates, output, triggers
 
+
 def load_templates(template_paths):
     """
     Loads all the mustache templates for the given users into memory.
@@ -113,6 +115,7 @@ def load_templates(template_paths):
             templates[name] = fh.read()
     return templates
 
+
 def tweak_paths(base, path_dict):
     """
     Tweak paths extracted from a configuration file to make them relative to
@@ -122,6 +125,7 @@ def tweak_paths(base, path_dict):
     for key, path in path_dict.iteritems():
         result[key] = os.path.join(base, path)
     return result
+
 
 def main():
     """
@@ -143,13 +147,14 @@ def main():
     templates = load_templates(template_paths)
 
     stream = Stream(
-            BasicAuthHandler(auth['username'], auth['password']),
-            Listener(templates, output, triggers),
-            secure=True)
+        BasicAuthHandler(auth['username'], auth['password']),
+        Listener(templates, output, triggers),
+        secure=True)
     try:
         stream.filter(follow=get_user_ids(triggers.keys()))
     except KeyboardInterrupt:
         pass
+
 
 if __name__ == '__main__':
     sys.exit(main())
