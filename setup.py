@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='isonatrain',
-    version='1.0.0',
+    version='1.0.1',
     description="Generates files based on trigger text in Twitter streams.",
     long_description=open('README').read(),
     url='https://github.com/kgaughan/is-on-a-train/',
