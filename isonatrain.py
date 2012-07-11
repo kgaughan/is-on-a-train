@@ -32,6 +32,8 @@ bases on certain trigger phrases containing a matching piece of text.
 import os.path
 import sys
 import logging
+import time
+import socket
 from ConfigParser import RawConfigParser
 from tweepy import api, StreamListener, Stream, BasicAuthHandler
 from pystache import render
@@ -167,7 +169,13 @@ def main():
         secure=True)
     try:
         LOG.info("Running filter")
-        stream.filter(follow=get_user_ids(triggers.keys()))
+        ids = get_user_ids(triggers.keys())
+        while True:
+            try:
+                stream.filter(follow=ids)
+            except socket.error:
+                LOG.exception("Connectivity problem; sleeping...")
+                time.sleep(5)
     except KeyboardInterrupt:
         pass
 
